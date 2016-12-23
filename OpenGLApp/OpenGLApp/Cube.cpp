@@ -1,5 +1,12 @@
 #include "Cube.h" 
 
+Cube::Cube(const Vector3D& position, const Vector3D& size, Texture2D &texture)
+{
+	this->position = position;
+	this->size = size;
+	this->texture = texture;
+}
+
 Cube::Cube(const Vector3D &position, const Vector3D &size)
 {
 	this->position = position;
@@ -17,66 +24,90 @@ void Cube::draw()
 	// Load the identity matrix
 	glLoadIdentity();
 
+
 	// Set the cube's position
 	glTranslatef(position.x, position.y, position.z); 
 
 	// Set the cube's orientation
-	glRotatef(orientation.x, 1.0f, 0.0f, 0.0f);
-	glRotatef(orientation.y, 0.0f, 1.0f, 0.0f);
-	glRotatef(orientation.z, 0.0f, 0.0f, 1.0f);
+	glRotatef(rotation.x, 1.0f, 0.0f, 0.0f);
+	glRotatef(rotation.y, 0.0f, 1.0f, 0.0f);
+	glRotatef(rotation.z, 0.0f, 0.0f, 1.0f);
+
+	if(texture.isLoaded())
+	{
+		glEnable(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, texture.getTexture());
+	}
 
 	// Draw the cube
 	glBegin(GL_QUADS);
 
-	glColor3f(0.0f, 1.0f, 0.0f);     // Green
-
 	// Top face
+	glTexCoord2f(0.0f, 1.0f);
 	glVertex3f(size.x, size.y, -size.z);
+	glTexCoord2f(0.0f, 0.0f);
 	glVertex3f(-size.x, size.y, -size.z);
+	glTexCoord2f(1.0f, 0.0f);
 	glVertex3f(-size.x, size.y, size.z);
-	glVertex3f(size.x, size.y, size.z);
-
-	glColor3f(1.0f, 0.5f, 0.0f);     // Orange
+	glTexCoord2f(1.0f, 1.0f);
+	glVertex3f(size.x, size.y, size.z);  
 
 	// Bottom face
+	glTexCoord2f(1.0f, 1.0f);
 	glVertex3f(size.x, -size.y, size.z);
+	glTexCoord2f(0.0f, 1.0f);
 	glVertex3f(-size.x, -size.y, size.z);
+	glTexCoord2f(0.0f, 0.0f);
 	glVertex3f(-size.x, -size.y, -size.z);
+	glTexCoord2f(1.0f, 0.0f);
 	glVertex3f(size.x, -size.y, -size.z);
-
-	glColor3f(1.0f, 0.0f, 0.0f);     // Red
 
 	// Front face
+	glTexCoord2f(0.0f, 0.0f);
 	glVertex3f(size.x, size.y, size.z);
+	glTexCoord2f(1.0f, 0.0f);
 	glVertex3f(-size.x, size.y, size.z);
+	glTexCoord2f(1.0f, 1.0f);
 	glVertex3f(-size.x, -size.y, size.z);
-	glVertex3f(size.x, -size.y, size.z);
-
-	glColor3f(1.0f, 1.0f, 0.0f);     // Yellow
+	glTexCoord2f(0.0f, 1.0f);
+	glVertex3f(size.x, -size.y, size.z);     
 
 	// Back face
+	glTexCoord2f(1.0f, 0.0f);
 	glVertex3f(size.x, -size.y, -size.z);
+	glTexCoord2f(1.0f, 1.0f);
 	glVertex3f(-size.x, -size.y, -size.z);
+	glTexCoord2f(0.0f, 1.0f);
 	glVertex3f(-size.x, size.y, -size.z);
-	glVertex3f(size.x, size.y, -size.z);
-
-	glColor3f(0.0f, 0.0f, 1.0f);     // Blue
+	glTexCoord2f(0.0f, 0.0f);
+	glVertex3f(size.x, size.y, -size.z);   
 
 	// Left face
+	glTexCoord2f(0.0f, 0.0f);
  	glVertex3f(-size.x, size.y, size.z);
+	glTexCoord2f(1.0f, 0.0f);
 	glVertex3f(-size.x, size.y, -size.z);
+	glTexCoord2f(1.0f, 1.0f);
 	glVertex3f(-size.x, -size.y, -size.z);
+	glTexCoord2f(0.0f, 1.0f);
 	glVertex3f(-size.x, -size.y, size.z);
 
-	glColor3f(1.0f, 0.0f, 1.0f);     // Magenta
-
 	// Right face
+	glTexCoord2f(1.0f, 0.0f);
 	glVertex3f(size.x, size.y, -size.z);
+	glTexCoord2f(1.0f, 1.0f);
 	glVertex3f(size.x, size.y, size.z);
+	glTexCoord2f(0.0f, 1.0f);
 	glVertex3f(size.x, -size.y, size.z);
+	glTexCoord2f(0.0f, 0.0f);
 	glVertex3f(size.x, -size.y, -size.z);
 
 	glEnd();
+
+	if(texture.isLoaded())
+	{
+		glDisable(GL_TEXTURE_2D);
+	}
 }
 
 void Cube::setPosition(const Vector3D &position)
@@ -84,17 +115,37 @@ void Cube::setPosition(const Vector3D &position)
 	this->position = position;
 }
 
+Vector3D Cube::getPosition() const
+{
+	return position;
+}
+
 void Cube::setSize(const Vector3D &size)
 {
 	this->size = size;
 }
 
-void Cube::setOrientation(const Vector3D& orientation)
+Vector3D Cube::getSize() const
 {
-	this->orientation = orientation;
+	return size;
 }
 
-void Cube::rotate(const Vector3D& orientation)
+void Cube::setRotation(const Vector3D& rotation)
 {
-	this->orientation = this->orientation + orientation;
+	this->rotation = rotation;
+}
+
+Vector3D Cube::getRotation() const
+{
+	return rotation;
+}
+
+void Cube::rotate(const Vector3D& rotation)
+{
+	this->rotation = this->rotation + rotation;
+}
+
+void Cube::move(const Vector3D& velocity)
+{
+	position = position + velocity;
 }
