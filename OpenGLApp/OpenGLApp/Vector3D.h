@@ -17,6 +17,8 @@ public:
 	Vector3D operator-(const Vector3D &vector3D) const;
 	Vector3D operator*(const Vector3D &vector3D) const;
 	Vector3D operator*(const GLfloat &scalar) const;
+	bool operator==(const Vector3D &vector3D) const;
+	bool operator!=(const Vector3D &vector3D) const;
 
 
 };
