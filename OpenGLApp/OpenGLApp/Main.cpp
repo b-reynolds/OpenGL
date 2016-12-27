@@ -19,21 +19,13 @@ GLfloat frameRate = 0.0f;
 int runTime = 0;
 int oldRunTime = 0;
 
-float x = 0;
-
 Texture2D* txtrFloor;
 Texture2D* txtrWall;
 Texture2D* txtrCrate;
 
-
-std::vector<Cube*> concrete;
-std::vector<Cube*> grass;
-std::vector<Cube*> crates;
-
-std::vector<Cube*> walls;
+std::vector<Cube*> gameObjects;
 
 Snake* snake = nullptr;
-Vector3D velocity;
 
 void initialize()
 {
@@ -50,21 +42,20 @@ void initialize()
 	glEnable(GL_LIGHTING);
 
 	glEnable(GL_LIGHT0);
-	
 
 	glDepthFunc(GL_LEQUAL);    // Set the type of depth-test
 	glShadeModel(GL_SMOOTH);   // Enable smooth shading
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);  // Nice perspective corrections
 
-	// Define texture wrapping behaviour
+	// Define textures wrapping behaviour
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT	);
 
-	// Define filtering behaviour
+	// Define textures filtering behaviour
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
 
-	// Define how texture is sent down the rendering pipeline
+	// Define how textures is sent down the rendering pipeline
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
 	// TODO: Clean up dynamic memory
@@ -72,19 +63,21 @@ void initialize()
 	txtrFloor = new Texture2D("Textures/floor.bmp");
 	txtrWall = new Texture2D("Textures/wall.bmp");
 
+	// Create the floor
 	for (auto x = -30.0f; x <= 0.0f; x += 2.0f)
 	{
 		for(auto z = 0.0f; z >= -30.0f; z -= 2.0f)
 		{
-			concrete.push_back(new Cube(Vector3D(x, -15.0f, z), Vector3D(1.0f, 1.0f, 1.0f), *txtrFloor));
+			gameObjects.push_back(new Cube(Vector3D(x, -15.0f, z), Vector3D(1.0f, 1.0f, 1.0f), *txtrFloor));
 		}
 	}
 
+	// Create the walls
 	for (auto y = -15.0f; y <= 0.0f; y += 2.0f)
 	{
 		for (auto x = -30.0f; x <= 0.0f; x += 2.0f)
 		{
-			walls.push_back(new Cube(Vector3D(x, y, -32.0f), Vector3D(1.0f, 1.0f, 1.0f), *txtrWall));
+			gameObjects.push_back(new Cube(Vector3D(x, y, -32.0f), Vector3D(1.0f, 1.0f, 1.0f), *txtrWall));
 		}
 	}
 
@@ -92,13 +85,11 @@ void initialize()
 	{
 		for (auto z = -32.0f; z <= 0.0f; z += 2.0f)
 		{
-			walls.push_back(new Cube(Vector3D(-32.0f, y, z), Vector3D(1.0f, 1.0f, 1.0f), *txtrWall));
+			gameObjects.push_back(new Cube(Vector3D(-32.0f, y, z), Vector3D(1.0f, 1.0f, 1.0f), *txtrWall));
 		}
 	}
 
 	snake = new Snake();
-
-
 }
 
 void outputDebugInfo()
@@ -162,24 +153,9 @@ void draw()
 
 	glMatrixMode(GL_MODELVIEW);
 
-	for(auto & cube : concrete)
+	for(auto & gameObject : gameObjects)
 	{
-		cube->draw();
-	}
-
-	for(auto & cube : grass)
-	{
-		cube->draw();
-	}
-
-	for(auto & cube : crates)
-	{
-		cube->draw();
-	}
-
-	for(auto & cube : walls)
-	{
-		cube->draw();
+		gameObject->draw();
 	}
 
 	snake->draw();
