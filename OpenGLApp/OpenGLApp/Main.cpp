@@ -1,23 +1,20 @@
 #include <glut.h>
 #include <stdio.h>
-#include "GLColour.h"
-#include "Cube.h"
 #include <IL/ilut.h>
 #include <vector>
+#include "GLColour.h"
+#include "Cube.h"
 #include "Snake.h"
 
 const int WIN_X = 1280;
 const int WIN_Y = 720;
-const char* WIN_TITLE = "My OpenGL Window";
-
+const char* WIN_TITLE = "SnakeGL <_/\__/\__0>";
 const GLColour CLR_BACKGROUND = GLColour(0.0f, 0.0f, 0.0f);
-
-GLdouble fieldOfView = 45.0f;
-GLfloat deltaTime = 0.0f;
-GLfloat frameRate = 0.0f;
+const GLdouble FOV = 45.0f;
 
 int runTime = 0;
 int oldRunTime = 0;
+GLfloat deltaTime = 0.0f;
 
 Texture2D* txtrFloor;
 Texture2D* txtrWall;
@@ -29,23 +26,47 @@ Snake* snake = nullptr;
 
 void initialize()
 {
+	// Initialize DevIL
 	ilInit();
+
+	// Initialize ILU
 	iluInit();
+
+	// Initialize the ILUT renderer to OpenGL
 	ilutRenderer(ILUT_OPENGL);
 
-	glFrontFace(GL_CW);
+	// Enable face culling
+	glEnable(GL_CULL_FACE);
+
+	// Set the front facing polygon orientation to counterclockwise
+	glFrontFace(GL_CCW);
+
+	// Specify back facing polygons to be culled
 	glCullFace(GL_BACK);
-	
+
+	// Specify the colour used when the colour buffers are cleared
 	GLColour::setClearColour(CLR_BACKGROUND);
-	glClearDepth(1.0f);        // Set background depth to farthest
-	glEnable(GL_DEPTH_TEST);   // Enable depth testing for z-culling
+
+	// Specify the clear value for the depth buffer
+	glClearDepth(1.0f);
+
+	// Enable lighting
 	glEnable(GL_LIGHTING);
 
+	// Enable LIGHT0
 	glEnable(GL_LIGHT0);
 
-	glDepthFunc(GL_LEQUAL);    // Set the type of depth-test
-	glShadeModel(GL_SMOOTH);   // Enable smooth shading
-	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);  // Nice perspective corrections
+	// Enable depth testing for z-culling
+	glEnable(GL_DEPTH_TEST);  
+
+	// Set the type of depth-test
+	glDepthFunc(GL_LEQUAL);
+
+	// Enable smooth shading
+	glShadeModel(GL_SMOOTH);   
+
+	// Nice perspective corrections
+	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);  
 
 	// Define textures wrapping behaviour
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -92,16 +113,6 @@ void initialize()
 	snake = new Snake();
 }
 
-void outputDebugInfo()
-{
-	system("cls");
-	printf("Window Size: %d, %d\n", glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
-	printf("Screen Size: %d, %d\n", glutGet(GLUT_SCREEN_WIDTH), glutGet(GLUT_SCREEN_HEIGHT));
-	printf("FOV: %f\n", fieldOfView);
-	printf("FPS: %f\n", frameRate);
-	printf("Delta Time: %f\n", deltaTime);
-}
-
 void resize(GLsizei width, GLsizei height)
 {
 	// Get the aspect ratio of the window
@@ -117,55 +128,59 @@ void resize(GLsizei width, GLsizei height)
 	glLoadIdentity();          
 	
 	// Enable perspective projection with fovy, aspect, zNear and zFar
-	gluPerspective(fieldOfView, aspectRatio, 0.1f, 100.0f);
+	gluPerspective(FOV, aspectRatio, 0.1f, 100.0f);
 }
 
 void update()
 {
 	// Get the elapsed time in milliseconds and calculate the delta time
 	runTime = glutGet(GLUT_ELAPSED_TIME);
-
-	
-
 	deltaTime = runTime - oldRunTime;
 	oldRunTime = runTime;
 
-	snake->update();
-
-	// Output debugging info to the console
-	outputDebugInfo();
+	// Update the snake's position
+	snake->update(); 
 }
 
 void draw()
 {
-	update();
-
-
 	// Clear the colour and depth buffers
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	GLfloat lightpos[] = { 0.5f, 1.0f, 1.0f, 0.0f };
 	glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
 
-
 	// Set the viewing transformation
 	gluLookAt(15.0f, 15.0f, 15.0f, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
+	// Set the matrix mode to model view
 	glMatrixMode(GL_MODELVIEW);
 
+	// Draw the game environment
 	for(auto & gameObject : gameObjects)
 	{
 		gameObject->draw();
 	}
 
+	// Draw the snake
 	snake->draw();
 
+	// Swap the window buffers
 	glutSwapBuffers();
+
+	// Mark the current window for redisplaying
 	glutPostRedisplay();
+}
+
+void run()
+{
+	update();
+	draw();
 }
 
 void keyboard(unsigned char key, int x, int y)
 {
+	// Set the snake's movement direction
 	switch (key)
 	{
 		case 'w':
@@ -180,13 +195,14 @@ void keyboard(unsigned char key, int x, int y)
 		case 'a':
 			snake->setDirection(snake->LEFT);
 			break;
+	default: break;
 	}
 }
 
-int main(int argc, char *argv[])
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
 	// Initialize GLUT
-	glutInit(&argc, argv);
+	glutInit(&__argc, __argv);
 
 	// Set the display mode to double buffered
 	glutInitDisplayMode(GLUT_DOUBLE);
@@ -200,12 +216,19 @@ int main(int argc, char *argv[])
 	// Set the window name and create it
 	glutCreateWindow(WIN_TITLE);
 
-	glutDisplayFunc(draw);
+	// Set the display callback function
+	glutDisplayFunc(run);
+
+	// Set the keyboard callback function
 	glutKeyboardFunc(keyboard);
+
+	// Set the reshape callback function
 	glutReshapeFunc(resize);
 
+	// Initialize OpenGL, DevIL, ILU, ILUT and Snake game objects
 	initialize();
 
+	// Enter the GLUT event processig loop
 	glutMainLoop();
 
 	return 0;
