@@ -1,14 +1,16 @@
-#include <glut.h>
+#include <freeglut.h>
 #include <stdio.h>
 #include <IL/ilut.h>
 #include <vector>
 #include "GLColour.h"
 #include "Cube.h"
 #include "Snake.h"
+#include <string>
 
 const int WIN_X = 1280;
 const int WIN_Y = 720;
-const char* WIN_TITLE = "SnakeGL <_/\__/\__0>";
+std::string winTitle = "SnakeGL <_/\__/\__0> ";
+
 const GLColour CLR_BACKGROUND = GLColour(0.0f, 0.0f, 0.0f);
 const GLdouble FOV = 45.0f;
 
@@ -22,7 +24,15 @@ Texture2D* txtrCrate;
 
 std::vector<Cube*> gameObjects;
 
+int highScore = 0;
 Snake* snake = nullptr;
+
+void drawText(const int &x, const int &y, const GLColour &colour, const std::string &text)
+{
+	glRasterPos2i(x, y);
+	glColor3f(colour.r, colour.g, colour.b);
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, reinterpret_cast<const unsigned char *>(text.c_str()));
+}
 
 void initialize()
 {
@@ -140,6 +150,17 @@ void update()
 
 	// Update the snake's position
 	snake->update(); 
+
+	// Update the high score
+	int currentScore = snake->getScore();
+	if(currentScore > highScore)
+	{
+		highScore = currentScore;
+	}
+
+	// Display the current score / high score to the window title
+	glutSetWindowTitle((winTitle + "(S: " + std::to_string(currentScore) +
+		" / HS: " + std::to_string(highScore) + ")").c_str());
 }
 
 void draw()
@@ -214,7 +235,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	glutInitWindowPosition((glutGet(GLUT_SCREEN_WIDTH) - WIN_X) / 2.0f, (glutGet(GLUT_SCREEN_HEIGHT) - WIN_Y) / 2.0f);
 	
 	// Set the window name and create it
-	glutCreateWindow(WIN_TITLE);
+	glutCreateWindow(winTitle.c_str());
 
 	// Set the display callback function
 	glutDisplayFunc(run);

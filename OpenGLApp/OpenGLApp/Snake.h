@@ -9,6 +9,7 @@ public:
 
 	enum Direction { UP, RIGHT, DOWN, LEFT };
 	void setDirection(const Direction &direction);
+	int getScore() const;
 
 	void update();
 	void draw();

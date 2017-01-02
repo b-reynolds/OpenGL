@@ -27,6 +27,11 @@ void Snake::setDirection(const Direction& direction)
 	}
 }
 
+int Snake::getScore() const
+{
+	return tailLength - DEFAULT_TAIL_LENGTH;
+}
+
 void Snake::update()
 {
 	// If the snake moved more recently than SPEED then return
