@@ -18,7 +18,8 @@ public:
 private:
 
 	const GLfloat SIZE = 1.0f;
-	const int SPEED = 50;
+	const int SPEED = 125;
+	const int DEFAULT_TAIL_LENGTH = 2;
 
 	const float MIN_X = -30;
 	const float MAX_X = 0;
@@ -43,6 +44,7 @@ private:
 	Cube food;
 
 	void reset();
+	void resetFood();
 
 };
 
