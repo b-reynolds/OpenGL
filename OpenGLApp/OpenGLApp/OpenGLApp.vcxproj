@@ -79,6 +79,7 @@
     <Link>
       <AdditionalDependencies>freeglut.lib;glew32.lib;ILU.lib;ILUT.lib;DevIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)DevIL-SDK-x86-1.7.8\lib;$(ProjectDir)GLEW_GLUT\glew-2.0.0\lib\Release\Win32;$(ProjectDir)GLEW_GLUT\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -91,6 +92,7 @@
     <Link>
       <AdditionalDependencies>freeglut.lib;glew32.lib;ILU.lib;ILUT.lib;DevIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)DevIL-SDK-x86-1.7.8\lib;$(ProjectDir)GLEW_GLUT\glew-2.0.0\lib\Release\Win32;$(ProjectDir)GLEW_GLUT\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -107,6 +109,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>freeglut.lib;glew32.lib;ILU.lib;ILUT.lib;DevIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)DevIL-SDK-x86-1.7.8\lib;$(ProjectDir)GLEW_GLUT\glew-2.0.0\lib\Release\Win32;$(ProjectDir)GLEW_GLUT\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -123,6 +126,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>freeglut.lib;glew32.lib;ILU.lib;ILUT.lib;DevIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)DevIL-SDK-x86-1.7.8\lib;$(ProjectDir)GLEW_GLUT\glew-2.0.0\lib\Release\Win32;$(ProjectDir)GLEW_GLUT\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
