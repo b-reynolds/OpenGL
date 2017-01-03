@@ -9,7 +9,7 @@
 
 const int WIN_X = 1280;
 const int WIN_Y = 720;
-std::string winTitle = "SnakeGL <_/\__/\__0> ";
+std::string winTitle = "SnakeGL ";
 
 const GLColour CLR_BACKGROUND = GLColour(0.0f, 0.0f, 0.0f);
 const GLdouble FOV = 45.0f;
@@ -159,8 +159,8 @@ void update()
 	}
 
 	// Display the current score / high score to the window title
-	glutSetWindowTitle((winTitle + "(S: " + std::to_string(currentScore) +
-		" / HS: " + std::to_string(highScore) + ")").c_str());
+	glutSetWindowTitle((winTitle + "(Score: " + std::to_string(currentScore) +
+		" / Best: " + std::to_string(highScore) + ")").c_str());
 }
 
 void draw()
