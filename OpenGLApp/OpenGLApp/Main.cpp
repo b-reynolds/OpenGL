@@ -6,6 +6,7 @@
 #include "Cube.h"
 #include "Snake.h"
 #include <string>
+#include "Random.h"
 
 const int WIN_X = 1280;
 const int WIN_Y = 720;
@@ -26,6 +27,14 @@ std::vector<Cube*> gameObjects;
 
 int highScore = 0;
 Snake* snake = nullptr;
+
+const GLdouble LIGHT_SPEED = 0.001;
+const GLfloat LIGHT_POSITION[] = { 1.0, 1.0, 1.5, 0.0 };
+
+GLdouble lightAmount = 0.5;
+bool lightToggle = false;
+GLColour lightColour = GLColour(0.0f, 0.0f, 0.0f);
+
 
 void drawText(const int &x, const int &y, const GLColour &colour, const std::string &text)
 {
@@ -86,10 +95,11 @@ void initialize()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
 
-	// Define how textures is sent down the rendering pipeline
+	// Define how textures are sent down the rendering pipeline
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
 	// TODO: Clean up dynamic memory
+	// TODO: Add icon to window / executable
 
 	txtrFloor = new Texture2D("Textures/floor.bmp");
 	txtrWall = new Texture2D("Textures/wall.bmp");
@@ -158,6 +168,18 @@ void update()
 		highScore = currentScore;
 	}
 
+	// Increase / decrease the light brightness
+	lightAmount += lightToggle ? LIGHT_SPEED * 3.0 : -LIGHT_SPEED;
+	if (lightToggle && lightAmount >= 1.0 || !lightToggle && lightAmount <= 0.5)
+	{
+		if (lightToggle <= 0.5)
+		{
+			// Set the light to a random colour
+			lightColour = GLColour(Random::nextDouble(), Random::nextDouble(), Random::nextDouble());
+		}
+		lightToggle = !lightToggle;
+	}
+
 	// Display the current score / high score to the window title
 	glutSetWindowTitle((winTitle + "(Score: " + std::to_string(currentScore) +
 		" / Best: " + std::to_string(highScore) + ")").c_str());
@@ -167,9 +189,6 @@ void draw()
 {
 	// Clear the colour and depth buffers
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	GLfloat lightpos[] = { 0.5f, 1.0f, 1.0f, 0.0f };
-	glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
 
 	// Set the viewing transformation
 	gluLookAt(15.0f, 15.0f, 15.0f, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
@@ -182,6 +201,17 @@ void draw()
 	{
 		gameObject->draw();
 	}
+
+	// Specify the light source parameters
+
+	GLfloat diffuse[] = { lightColour.r * lightAmount, lightColour.g * lightAmount, lightColour.b * lightAmount, 1.0 };
+	GLfloat specular[] = { lightColour.r * lightAmount, lightColour.g * lightAmount, lightColour.b * lightAmount, 1.0 };
+	GLfloat ambient[] = { lightColour.r * lightAmount, lightColour.g * lightAmount, lightColour.b * lightAmount, 1.0 };
+
+	glLightfv(GL_LIGHT0, GL_POSITION, LIGHT_POSITION);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, specular);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
 
 	// Draw the snake
 	snake->draw();
