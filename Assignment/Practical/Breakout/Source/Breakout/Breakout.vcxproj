@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{F0C67D29-952A-44E1-9E71-3ACFD1194A1E}</ProjectGuid>
-    <RootNamespace>OpenGLApp</RootNamespace>
+    <ProjectGuid>{BB975039-F326-4C84-B70A-DC8288674F53}</ProjectGuid>
+    <RootNamespace>Breakout</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -74,12 +74,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)DevIL-SDK-x86-1.7.8\include;$(ProjectDir)GLEW_GLUT\glew-2.0.0\include\GL;$(ProjectDir)GLEW_GLUT\freeglut\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)GLEW_GLUT\glew-2.0.0\include\GL;$(ProjectDir)GLEW_GLUT\freeglut\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>freeglut.lib;glew32.lib;ILU.lib;ILUT.lib;DevIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)DevIL-SDK-x86-1.7.8\lib;$(ProjectDir)GLEW_GLUT\glew-2.0.0\lib\Release\Win32;$(ProjectDir)GLEW_GLUT\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>freeglut.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)GLEW_GLUT\glew-2.0.0\lib\Release\Win32;$(ProjectDir)GLEW_GLUT\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -87,12 +86,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)DevIL-SDK-x86-1.7.8\include;$(ProjectDir)GLEW_GLUT\glew-2.0.0\include\GL;$(ProjectDir)GLEW_GLUT\freeglut\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)GLEW_GLUT\glew-2.0.0\include\GL;$(ProjectDir)GLEW_GLUT\freeglut\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>freeglut.lib;glew32.lib;ILU.lib;ILUT.lib;DevIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)DevIL-SDK-x86-1.7.8\lib;$(ProjectDir)GLEW_GLUT\glew-2.0.0\lib\Release\Win32;$(ProjectDir)GLEW_GLUT\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>freeglut.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)GLEW_GLUT\glew-2.0.0\lib\Release\Win32;$(ProjectDir)GLEW_GLUT\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -102,14 +100,13 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)DevIL-SDK-x86-1.7.8\include;$(ProjectDir)GLEW_GLUT\glew-2.0.0\include\GL;$(ProjectDir)GLEW_GLUT\freeglut\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)GLEW_GLUT\glew-2.0.0\include\GL;$(ProjectDir)GLEW_GLUT\freeglut\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>freeglut.lib;glew32.lib;ILU.lib;ILUT.lib;DevIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)DevIL-SDK-x86-1.7.8\lib;$(ProjectDir)GLEW_GLUT\glew-2.0.0\lib\Release\Win32;$(ProjectDir)GLEW_GLUT\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>freeglut.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)GLEW_GLUT\glew-2.0.0\lib\Release\Win32;$(ProjectDir)GLEW_GLUT\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -119,32 +116,48 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)DevIL-SDK-x86-1.7.8\include;$(ProjectDir)GLEW_GLUT\glew-2.0.0\include\GL;$(ProjectDir)GLEW_GLUT\freeglut\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)GLEW_GLUT\glew-2.0.0\include\GL;$(ProjectDir)GLEW_GLUT\freeglut\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>freeglut.lib;glew32.lib;ILU.lib;ILUT.lib;DevIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)DevIL-SDK-x86-1.7.8\lib;$(ProjectDir)GLEW_GLUT\glew-2.0.0\lib\Release\Win32;$(ProjectDir)GLEW_GLUT\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>freeglut.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)GLEW_GLUT\glew-2.0.0\lib\Release\Win32;$(ProjectDir)GLEW_GLUT\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Cube.cpp" />
-    <ClCompile Include="GLColour.cpp" />
+    <ClCompile Include="Ball.cpp" />
+    <ClCompile Include="Breakout.cpp" />
+    <ClCompile Include="BreakoutBlock.cpp" />
+    <ClCompile Include="BreakoutLevel.cpp" />
+    <ClCompile Include="Colour.cpp" />
+    <ClCompile Include="Keyboard.cpp" />
+    <ClCompile Include="Levels.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Random.cpp" />
-    <ClCompile Include="Snake.cpp" />
-    <ClCompile Include="Texture2D.cpp" />
-    <ClCompile Include="Vector3D.cpp" />
+    <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="Paddle.cpp" />
+    <ClCompile Include="FloatRect.cpp" />
+    <ClCompile Include="RectangleShape.cpp" />
+    <ClCompile Include="RenderText.cpp" />
+    <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="Vector2f.cpp" />
+    <ClCompile Include="Border.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Cube.h" />
-    <ClInclude Include="GLColour.h" />
-    <ClInclude Include="Random.h" />
-    <ClInclude Include="Snake.h" />
-    <ClInclude Include="Texture2D.h" />
-    <ClInclude Include="Vector3D.h" />
+    <ClInclude Include="Ball.h" />
+    <ClInclude Include="Breakout.h" />
+    <ClInclude Include="BreakoutBlock.h" />
+    <ClInclude Include="BreakoutLevel.h" />
+    <ClInclude Include="Colour.h" />
+    <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="Mouse.h" />
+    <ClInclude Include="Paddle.h" />
+    <ClInclude Include="FloatRect.h" />
+    <ClInclude Include="RectangleShape.h" />
+    <ClInclude Include="RenderText.h" />
+    <ClInclude Include="Shape.h" />
+    <ClInclude Include="Vector2f.h" />
+    <ClInclude Include="Border.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
